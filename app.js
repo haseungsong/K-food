@@ -1,6 +1,8 @@
 const STORAGE_KEYS = {
   draft: "kfoodVisitorDraft",
-  submissions: "kfoodVisitorSubmissions"
+  submissions: "kfoodVisitorSubmissions",
+  completedStep1: "kfoodVisitorStep1Done",
+  completedStep2: "kfoodVisitorStep2Done"
 };
 
 function buildRoute(page, hash) {
@@ -42,6 +44,14 @@ function getSubmissions() {
 
 function saveSubmissions(items) {
   localStorage.setItem(STORAGE_KEYS.submissions, JSON.stringify(items));
+}
+
+function markCompleted(key) {
+  localStorage.setItem(key, "true");
+}
+
+function isCompleted(key) {
+  return localStorage.getItem(key) === "true";
 }
 
 function getSafeId() {
@@ -107,9 +117,10 @@ async function submitToEndpoint(payload) {
     return { mode: "local" };
   }
 
-  await fetch(endpoint, {
+  const response = await fetch(endpoint, {
     method: "POST",
-    mode: "no-cors",
+    mode: "cors",
+    redirect: "follow",
     headers: {
       "Content-Type": "text/plain;charset=utf-8"
     },
@@ -119,7 +130,16 @@ async function submitToEndpoint(payload) {
     })
   });
 
-  return { mode: "remote-opaque" };
+  if (!response.ok) {
+    throw new Error("HTTP error");
+  }
+
+  const data = await response.json();
+  if (!data.ok) {
+    throw new Error(data.message || "Erro ao salvar");
+  }
+
+  return data;
 }
 
 function setStatus(target, message, isError) {
@@ -172,9 +192,70 @@ function renderDraftSummary() {
   });
 }
 
+function disableCompletedActions() {
+  if (isCompleted(STORAGE_KEYS.completedStep1)) {
+    document.querySelectorAll("[data-disable-after-step1]").forEach((element) => {
+      element.disabled = true;
+      element.classList.add("disabled-link");
+      if (element.tagName === "BUTTON") {
+        element.textContent = "Check-in já enviado";
+      }
+    });
+  }
+
+  if (isCompleted(STORAGE_KEYS.completedStep2)) {
+    document.querySelectorAll("[data-disable-after-step2]").forEach((element) => {
+      element.disabled = true;
+      element.classList.add("disabled-link");
+      if (element.tagName === "BUTTON") {
+        element.textContent = "Pesquisa já enviada";
+      }
+    });
+  }
+}
+
+function initModalCards() {
+  const modal = document.querySelector("[data-modal]");
+  if (!modal) {
+    return;
+  }
+
+  const title = modal.querySelector("[data-modal-title]");
+  const body = modal.querySelector("[data-modal-body]");
+  const closeButton = modal.querySelector("[data-modal-close]");
+
+  document.querySelectorAll("[data-modal-card]").forEach((card) => {
+    card.addEventListener("click", () => {
+      title.textContent = card.dataset.title || "";
+      body.innerHTML = card.dataset.body || "";
+      modal.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+    });
+  });
+
+  function closeModal() {
+    modal.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+
+  closeButton.addEventListener("click", closeModal);
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+}
+
 function initStep1Form() {
   const form = document.querySelector("[data-step1-form]");
   if (!form) {
+    return;
+  }
+
+  if (isCompleted(STORAGE_KEYS.completedStep1)) {
+    const submitButton = form.querySelector('button[type="submit"]');
+    setButtonState(submitButton, true, "Check-in já enviado", "Check-in já enviado");
+    setStatus(document.querySelector("[data-form-status]"), "Seu check-in já foi registrado neste aparelho.", false);
     return;
   }
 
@@ -222,7 +303,11 @@ function initStep1Form() {
 
     try {
       await submitToEndpoint({ step: "step1", ...merged });
-      routeTo("step2");
+      markCompleted(STORAGE_KEYS.completedStep1);
+      document.querySelector("[data-step1-card]").classList.add("hidden");
+      document.querySelector("[data-step1-next]").classList.remove("hidden");
+      disableCompletedActions();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       setButtonState(submitButton, false, "Continuar", "Salvando...");
       setStatus(status, "Falha ao enviar. Tente novamente.", true);
@@ -239,6 +324,13 @@ function initStep2Form() {
   const draft = getDraft();
   if (!draft.name || !draft.whatsapp) {
     routeTo("step1");
+    return;
+  }
+
+  if (isCompleted(STORAGE_KEYS.completedStep2)) {
+    document.querySelector("[data-step2-card]").classList.add("hidden");
+    document.querySelector("[data-thank-you]").classList.remove("hidden");
+    disableCompletedActions();
     return;
   }
 
@@ -309,9 +401,11 @@ function initStep2Form() {
 
     try {
       await submitToEndpoint({ step: "step2", ...payload });
+      markCompleted(STORAGE_KEYS.completedStep2);
       document.querySelector("[data-step2-card]").classList.add("hidden");
       document.querySelector("[data-thank-you]").classList.remove("hidden");
       renderDraftSummary();
+      disableCompletedActions();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       setButtonState(submitButton, false, "Enviar pesquisa", "Enviando...");
@@ -335,6 +429,8 @@ function initEventPage() {
 document.addEventListener("DOMContentLoaded", () => {
   initRouteLinks();
   renderDraftSummary();
+  disableCompletedActions();
+  initModalCards();
   initStep1Form();
   initStep2Form();
   initEventPage();

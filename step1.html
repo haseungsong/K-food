@@ -22,7 +22,7 @@
     </header>
 
     <main class="stack">
-      <section class="panel content-panel">
+      <section class="panel content-panel" data-step1-card>
         <div class="eyebrow">Passo 1</div>
         <h1 class="section-title">Digite seus dados</h1>
         <p class="hero-subtitle-strong">Leva poucos segundos.</p>
@@ -39,9 +39,19 @@
             <input class="input" id="whatsapp" name="whatsapp" type="tel" placeholder="11 99999 9999" required>
           </div>
 
-          <button class="button button-primary button-full" type="submit">Continuar</button>
+          <button class="button button-primary button-full" type="submit" data-disable-after-step1>Continuar</button>
           <div class="status-inline" data-form-status aria-live="polite"></div>
         </form>
+      </section>
+
+      <section class="panel content-panel hidden" data-step1-next>
+        <div class="eyebrow">Check-in concluído</div>
+        <h2 class="section-title">Pronto</h2>
+        <p class="hero-text">Seu check-in foi registrado. Escolha o próximo passo.</p>
+        <div class="split-actions">
+          <a class="button button-primary" href="step2.html" data-route="step2">Ir para Passo 2</a>
+          <a class="button button-outline" href="event.html" data-route="event">Ver evento</a>
+        </div>
       </section>
 
       <section class="panel content-panel">
@@ -64,7 +74,7 @@
   <div class="mobile-sticky-bar">
     <div class="mobile-sticky-shell">
       <div class="mobile-sticky-actions">
-        <button class="button button-primary" type="submit" form="step1-form">Continuar</button>
+        <button class="button button-primary" type="submit" form="step1-form" data-disable-after-step1>Continuar</button>
       </div>
     </div>
   </div>

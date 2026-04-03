@@ -28,29 +28,35 @@
         <p class="hero-subtitle-strong">Sabores, zonas e experiências.</p>
         <p class="hero-text">Veja os produtos, as zonas e depois faça seu check-in quando quiser.</p>
         <div class="notice" data-visitor-message">Você pode começar pelo check-in a qualquer momento.</div>
+        <div class="nav-shortcuts">
+          <a class="nav-shortcut" href="index.html" data-route="index">Home</a>
+          <a class="nav-shortcut" href="#degustacao">Degustação</a>
+          <a class="nav-shortcut" href="#zones">Zonas</a>
+        </div>
         <div class="split-actions">
           <a class="button button-primary" href="step1.html" data-route="step1">Fazer check-in</a>
           <a class="button button-outline" href="step2.html" data-route="step2">Pesquisa e sorteio</a>
         </div>
       </section>
 
-      <section class="panel content-panel">
+      <section class="panel content-panel" id="degustacao">
         <div class="eyebrow">Degustação</div>
         <div class="product-list">
-          <div class="product-card"><strong>🍋 Yuja</strong><span>Sabor cítrico e refrescante</span></div>
-          <div class="product-card"><strong>🍇 Omija</strong><span>Bebida com perfil único</span></div>
-          <div class="product-card"><strong>🌿 Seaweed Snack</strong><span>Crocante e leve</span></div>
-          <div class="product-card"><strong>⚫ Black Sesame</strong><span>Sabor intenso e tostado</span></div>
-          <div class="product-card"><strong>🥛 Soy Milk</strong><span>Suave e fácil de experimentar</span></div>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Yuja" data-body="<p class='modal-copy'>Bebida cítrica e refrescante, com aroma leve e sabor fácil de gostar.</p><p class='modal-copy'>Ideal para quem quer começar por um sabor suave e familiar.</p>"><strong>🍋 Yuja</strong><span>Sabor cítrico e refrescante</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Omija" data-body="<p class='modal-copy'>Bebida marcante com perfil único e elegante.</p><p class='modal-copy'>Ótima para quem quer experimentar algo diferente no universo coreano.</p>"><strong>🍇 Omija</strong><span>Bebida com perfil único</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Seaweed Snack" data-body="<p class='modal-copy'>Snack crocante, leve e fácil de experimentar.</p><p class='modal-copy'>Uma opção rápida para quem gosta de salgados e texturas leves.</p>"><strong>🌿 Seaweed Snack</strong><span>Crocante e leve</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Black Sesame" data-body="<p class='modal-copy'>Sabor intenso, tostado e memorável.</p><p class='modal-copy'>Perfeito para quem quer conhecer um perfil mais rico e profundo.</p>"><strong>⚫ Black Sesame</strong><span>Sabor intenso e tostado</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Soy Milk" data-body="<p class='modal-copy'>Sabor suave, cremoso e fácil de beber.</p><p class='modal-copy'>Uma boa opção para quem prefere sabores mais delicados.</p>"><strong>🥛 Soy Milk</strong><span>Suave e fácil de experimentar</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Outros destaques" data-body="<p class='modal-copy'>Além destes produtos, a experiência pode incluir novidades e seleções especiais do dia.</p>"><strong>✨ Destaques do dia</strong><span>Novidades e seleções especiais</span></button>
         </div>
       </section>
 
       <section class="panel content-panel" id="zones">
         <div class="eyebrow">Zonas</div>
         <div class="product-list">
-          <div class="product-card"><strong>Seaweed Snacks</strong><span>Snacks e degustação rápida</span></div>
-          <div class="product-card"><strong>Beauty Drinks</strong><span>Bebidas e sabores leves</span></div>
-          <div class="product-card"><strong>Wellness Foods</strong><span>Ingredientes e sabores especiais</span></div>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Seaweed Snacks" data-body="<p class='modal-copy'>Zona dedicada a snacks leves e crocantes.</p><p class='modal-copy'>Passe por aqui para degustações rápidas e práticas.</p>"><strong>Seaweed Snacks</strong><span>Snacks e degustação rápida</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Beauty Drinks" data-body="<p class='modal-copy'>Espaço de bebidas com perfis leves, aromáticos e refrescantes.</p><p class='modal-copy'>Aqui você encontra Yuja, Omija e outras opções do dia.</p>"><strong>Beauty Drinks</strong><span>Bebidas e sabores leves</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Wellness Foods" data-body="<p class='modal-copy'>Zona com alimentos e ingredientes especiais da experiência.</p><p class='modal-copy'>Boa área para descobrir sabores diferentes e combinações novas.</p>"><strong>Wellness Foods</strong><span>Ingredientes e sabores especiais</span></button>
         </div>
       </section>
     </main>
@@ -61,6 +67,18 @@
       <div class="mobile-sticky-actions two">
         <a class="button button-primary" href="step1.html" data-route="step1">Check-in</a>
         <a class="button button-outline" href="step2.html" data-route="step2">Pesquisa</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" data-modal>
+    <div class="modal-sheet">
+      <div class="modal-content">
+        <div class="modal-topbar">
+          <div class="modal-title" data-modal-title></div>
+          <button class="modal-close" type="button" data-modal-close>×</button>
+        </div>
+        <div class="modal-body" data-modal-body></div>
       </div>
     </div>
   </div>
