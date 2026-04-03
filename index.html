@@ -19,10 +19,15 @@
           <div class="brand-sub">Entrada oficial</div>
         </div>
       </a>
+      <nav class="nav-links">
+        <a class="nav-chip" href="#entrada">Entrada</a>
+        <a class="nav-chip" href="#degustacao">Degustação</a>
+        <a class="nav-chip" href="#zonas">Zonas</a>
+      </nav>
     </header>
 
-    <main class="stack">
-      <section class="panel hero-copy hero-block">
+    <main class="fullpage-flow">
+      <section class="panel hero-copy hero-block full-section" id="entrada">
         <div class="eyebrow">Entrada</div>
         <h1 class="hero-title">Escolha como quer entrar</h1>
         <p class="hero-subtitle-strong">Check-in primeiro. Evento depois.</p>
@@ -65,6 +70,30 @@
           </div>
         </div>
       </section>
+
+      <section class="panel content-panel full-section" id="degustacao">
+        <div class="eyebrow">Degustação</div>
+        <h2 class="section-title">Sabores do dia</h2>
+        <p class="hero-text">Toque em um item para ver mais detalhes.</p>
+        <div class="product-list">
+          <button class="product-card button-like" type="button" data-modal-card data-title="Yuja" data-body="<p class='modal-copy'>Bebida cítrica e refrescante, com aroma suave e sabor fácil de gostar.</p><p class='modal-copy'>Ideal para quem quer começar por algo leve e delicado.</p>"><strong>🍋 Yuja</strong><span>Cítrico e refrescante</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Omija" data-body="<p class='modal-copy'>Uma bebida marcante com perfil único e notas mais complexas.</p><p class='modal-copy'>Ótima para quem quer descobrir novos sabores.</p>"><strong>🍇 Omija</strong><span>Único e aromático</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Seaweed Snack" data-body="<p class='modal-copy'>Snack crocante, leve e muito fácil de experimentar.</p><p class='modal-copy'>Boa opção para uma degustação rápida.</p>"><strong>🌿 Seaweed Snack</strong><span>Crocante e leve</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Black Sesame" data-body="<p class='modal-copy'>Sabor intenso, tostado e memorável.</p><p class='modal-copy'>Perfeito para quem gosta de sabores mais profundos.</p>"><strong>⚫ Black Sesame</strong><span>Intenso e tostado</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Soy Milk" data-body="<p class='modal-copy'>Suave, cremoso e fácil de beber.</p><p class='modal-copy'>Uma opção delicada para todos os gostos.</p>"><strong>🥛 Soy Milk</strong><span>Suave e fácil</span></button>
+        </div>
+      </section>
+
+      <section class="panel content-panel full-section" id="zonas">
+        <div class="eyebrow">Zonas</div>
+        <h2 class="section-title">Explore por área</h2>
+        <p class="hero-text">Toque em uma zona para ver o que encontra nela.</p>
+        <div class="product-list">
+          <button class="product-card button-like" type="button" data-modal-card data-title="Seaweed Snacks" data-body="<p class='modal-copy'>Zona dedicada a snacks leves e crocantes.</p><p class='modal-copy'>Aqui você encontra degustações rápidas e práticas.</p>"><strong>Seaweed Snacks</strong><span>Snacks e degustação rápida</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Beauty Drinks" data-body="<p class='modal-copy'>Espaço com bebidas leves, aromáticas e refrescantes.</p><p class='modal-copy'>Boa zona para experimentar Yuja, Omija e outras bebidas do dia.</p>"><strong>Beauty Drinks</strong><span>Bebidas e sabores leves</span></button>
+          <button class="product-card button-like" type="button" data-modal-card data-title="Wellness Foods" data-body="<p class='modal-copy'>Zona com alimentos e ingredientes especiais da experiência.</p><p class='modal-copy'>Uma boa área para descobrir combinações novas.</p>"><strong>Wellness Foods</strong><span>Ingredientes e sabores especiais</span></button>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -73,6 +102,18 @@
       <div class="mobile-sticky-actions two">
         <a class="button button-primary" href="step1.html" data-route="step1">Check-in</a>
         <a class="button button-outline" href="event.html" data-route="event">Evento</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" data-modal>
+    <div class="modal-sheet">
+      <div class="modal-content">
+        <div class="modal-topbar">
+          <div class="modal-title" data-modal-title></div>
+          <button class="modal-close" type="button" data-modal-close>×</button>
+        </div>
+        <div class="modal-body" data-modal-body></div>
       </div>
     </div>
   </div>
