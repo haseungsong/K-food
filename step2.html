@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Pesquisa rapida e sorteio para visitantes do evento. 행사 설문과 경품 응모 페이지.">
-  <title>Pesquisa Rapida + Sorteio | K-Food Experience</title>
+  <meta name="description" content="Pesquisa rapida e sorteio para visitantes do evento.">
+  <title>Pesquisa e Sorteio</title>
   <link rel="stylesheet" href="styles.css">
   <script src="config.js"></script>
   <script src="app.js" defer></script>
@@ -15,296 +15,148 @@
       <a class="brand" href="index.html" data-route="index">
         <div class="brand-badge">K</div>
         <div class="brand-copy">
-          <div class="brand-name">K-Food Experience Sao Paulo 2026</div>
-          <div class="brand-sub">Pesquisa + Sorteio</div>
+          <div class="brand-name">Pesquisa Rápida</div>
+          <div class="brand-sub">Participação no sorteio</div>
         </div>
       </a>
-      <div class="nav-links">
-        <a class="nav-chip" href="step1.html" data-route="step1">Check-in</a>
-        <a class="nav-chip" href="event.html" data-route="event">Evento</a>
-      </div>
     </header>
 
-    <main>
+    <main class="stack">
       <section class="panel content-panel" data-step2-card>
-        <div class="form-layout">
-          <section>
-            <div class="eyebrow">Step 2</div>
-            <h1 class="section-title">Pesquisa Rapida + Sorteio<br>30초 설문 + 경품 응모</h1>
-            <p class="section-copy dual-copy">
-              <span class="lang-pt">Responda 3 perguntas principais e envie.</span>
-              <span class="lang-kr">핵심 질문 3개만 답하고 제출하세요.</span>
-            </p>
-            <div class="focus-banner">
-              <span class="lang-pt">Responda, envie e entre no sorteio.</span>
-              <span class="lang-kr">응답하고 제출하면 추첨에 응모됩니다.</span>
-            </div>
-            <div class="inline-steps">
-              <div class="inline-step">
-                <div class="inline-step-bullet">1</div>
-                <div class="dual-copy">
-                  <span class="lang-pt">Escolha o produto que mais gostou.</span>
-                  <span class="lang-kr">가장 마음에 든 제품을 고르세요.</span>
-                </div>
-              </div>
-              <div class="inline-step">
-                <div class="inline-step-bullet">2</div>
-                <div class="dual-copy">
-                  <span class="lang-pt">Conte qual evento voce quer ver no futuro.</span>
-                  <span class="lang-kr">앞으로 보고 싶은 행사를 선택하세요.</span>
-                </div>
-              </div>
-              <div class="inline-step">
-                <div class="inline-step-bullet">3</div>
-                <div class="dual-copy">
-                  <span class="lang-pt">Envie para participar do sorteio.</span>
-                  <span class="lang-kr">제출하면 추첨 응모가 완료됩니다.</span>
-                </div>
-              </div>
-            </div>
-            <div class="notice">
-              <span class="lang-pt">Pesquisa de 30 segundos = chance de ganhar um mimo coreano.</span>
-              <span class="lang-kr">30초 설문 참여 = 한국 기프트 응모 기회</span>
-            </div>
+        <div class="eyebrow">Passo 2</div>
+        <h1 class="section-title">Responda e participe</h1>
+        <p class="hero-text">Escolha as opções abaixo e envie sua pesquisa.</p>
 
-            <form class="form-stack" id="step2-form" data-step2-form>
-              <div class="field-group">
-                <label class="field-label" for="email">
-                  <span class="lang-pt">E-mail</span>
-                  <span class="lang-kr">이메일</span>
-                </label>
-                <input class="input" id="email" name="email" type="email" placeholder="voce@email.com">
-                <div class="field-hint dual-copy">
-                  <span class="lang-pt">Opcional. Usado para contato sobre futuros eventos.</span>
-                  <span class="lang-kr">선택 항목입니다. 향후 행사 안내용으로 사용할 수 있습니다.</span>
-                </div>
-              </div>
-
-              <div class="field-group">
-                <label class="field-label" for="didTaste">
-                  <span class="lang-pt">Voce participou da degustacao?</span>
-                  <span class="lang-kr">시식에 참여하셨나요?</span>
-                </label>
-                <select class="select" id="didTaste" name="didTaste">
-                  <option value="">Selecione uma opcao / 선택해 주세요</option>
-                  <option value="yes">Sim / 예</option>
-                  <option value="no">Nao / 아니오</option>
-                </select>
-              </div>
-
-              <div class="field-group">
-                <label class="field-label" for="tastedZone">
-                  <span class="lang-pt">Qual zona voce visitou?</span>
-                  <span class="lang-kr">어느 시식 존을 방문하셨나요?</span>
-                </label>
-                <select class="select" id="tastedZone" name="tastedZone">
-                  <option value="">Selecione uma opcao / 선택해 주세요</option>
-                  <option value="seaweed-snacks">Seaweed Snacks Zone</option>
-                  <option value="beauty-drinks">Beauty Drinks Zone</option>
-                  <option value="wellness-foods">Korean Wellness Foods Zone</option>
-                  <option value="multiple">Multiple / 여러 존</option>
-                </select>
-              </div>
-
-              <div class="field-group">
-                <label class="field-label" for="surveyFavorite">
-                  <span class="lang-pt">Qual produto mais chamou sua atencao hoje?</span>
-                  <span class="lang-kr">오늘 가장 인상 깊었던 제품은 무엇인가요?</span>
-                </label>
-                <select class="select" id="surveyFavorite" name="surveyFavorite">
-                  <option value="">Selecione uma opcao / 선택해 주세요</option>
-                  <option value="yuja">Yuja</option>
-                  <option value="omija">Omija</option>
-                  <option value="seaweed-snack">Seaweed Snack</option>
-                  <option value="black-sesame">Black Sesame</option>
-                  <option value="soy-milk">Soy Milk</option>
-                  <option value="other">Outro / 기타</option>
-                </select>
-              </div>
-
-              <div class="field-group">
-                <label class="field-label" for="surveyReason">
-                  <span class="lang-pt">Por que voce gostou mais?</span>
-                  <span class="lang-kr">가장 마음에 든 이유는 무엇인가요?</span>
-                </label>
-                <select class="select" id="surveyReason" name="surveyReason">
-                  <option value="">Selecione uma opcao / 선택해 주세요</option>
-                  <option value="taste">Sabor / 맛</option>
-                  <option value="healthy-image">Imagem saudavel / 건강한 이미지</option>
-                  <option value="beauty-benefit">K-Beauty / bem-estar / 뷰티-웰니스 느낌</option>
-                  <option value="package-visual">Visual e embalagem / 비주얼-패키지</option>
-                  <option value="new-experience">Experiencia nova / 처음 먹어봐서</option>
-                </select>
-              </div>
-
-              <div class="field-group">
-                <label class="field-label" for="interest">
-                  <span class="lang-pt">De qual tipo de evento voce gostaria de participar no futuro?</span>
-                  <span class="lang-kr">앞으로 어떤 한국문화원 행사가 가장 궁금한가요?</span>
-                </label>
-                <select class="select" id="interest" name="interest">
-                  <option value="">Selecione uma opcao / 선택해 주세요</option>
-                  <option value="k-food">K-Food</option>
-                  <option value="k-beauty">K-Beauty</option>
-                  <option value="k-pop">K-Pop</option>
-                  <option value="korean-language">Lingua Coreana / 한국어</option>
-                  <option value="family-event">Criancas e familia / 어린이-가족 행사</option>
-                  <option value="traditional-culture">Cultura tradicional / 전통문화 체험</option>
-                </select>
-              </div>
-
-              <div class="field-group">
-                <label class="field-label" for="surveySatisfaction">
-                  <span class="lang-pt">Qual a sua satisfacao com o evento de hoje?</span>
-                  <span class="lang-kr">오늘 행사 만족도는 어느 정도인가요?</span>
-                </label>
-                <select class="select" id="surveySatisfaction" name="surveySatisfaction">
-                  <option value="">Selecione uma opcao / 선택해 주세요</option>
-                  <option value="5">5 - Excelente</option>
-                  <option value="4">4 - Muito bom</option>
-                  <option value="3">3 - Bom</option>
-                  <option value="2">2 - Regular</option>
-                  <option value="1">1 - Ruim</option>
-                </select>
-              </div>
-
-              <div class="field-group">
-                <label class="field-label" for="notes">
-                  <span class="lang-pt">Comentário rapido</span>
-                  <span class="lang-kr">오늘 행사 한 줄 후기</span>
-                </label>
-                <textarea class="textarea" id="notes" name="notes" placeholder="Deixe uma frase curta sobre sua experiencia de hoje. / 오늘 행사에 대한 짧은 한 줄 코멘트를 남겨 주세요."></textarea>
-              </div>
-
-              <div class="checkbox-list">
-                <label class="checkbox-item">
-                  <input type="checkbox" name="privacyConsent">
-                  <span class="dual-copy">
-                    <span class="lang-pt">Concordo com a coleta de dados para operacao do evento.</span>
-                    <span class="lang-kr">행사 운영을 위한 개인정보 수집 안내에 동의합니다.</span>
-                  </span>
-                </label>
-                <label class="checkbox-item">
-                  <input type="checkbox" name="marketingConsent">
-                  <span class="dual-copy">
-                    <span class="lang-pt">Quero receber noticias de futuros eventos por WhatsApp ou e-mail.</span>
-                    <span class="lang-kr">향후 문화원 행사 소식을 WhatsApp 또는 이메일로 받아보겠습니다.</span>
-                  </span>
-                </label>
-              </div>
-
-              <button class="button button-primary button-full" type="submit">
-                <span class="button-copy">
-                  <span class="lang-pt">Enviar pesquisa e participar do sorteio</span>
-                  <span class="lang-kr">설문 제출하고 추첨 응모하기</span>
-                </span>
-              </button>
-              <div class="status-inline" data-step2-status aria-live="polite"></div>
-            </form>
-          </section>
-
-          <aside class="grid">
-            <div class="summary-box">
-              <h3>Check-in confirmado</h3>
-              <dl>
-                <dt>Nome</dt>
-                <dd data-draft-name>Ainda nao informado / 아직 등록되지 않음</dd>
-                <dt>WhatsApp</dt>
-                <dd data-draft-phone>Ainda nao informado / 아직 등록되지 않음</dd>
-              </dl>
-            </div>
-
-            <div class="status-box">
-              <strong>O que e obrigatorio?</strong>
-              <p class="dual-copy">
-                <span class="lang-pt">Produto favorito, interesse futuro e satisfacao.</span>
-                <span class="lang-kr">최애 제품, 관심 행사, 만족도는 꼭 선택해 주세요.</span>
-              </p>
-            </div>
-
-            <div class="card surface-alt">
-              <h3>Depois de enviar</h3>
-              <div class="kicker-list">
-                <div class="kicker-item">
-                  <span class="kicker-dot"></span>
-                  <div class="dual-copy">
-                    <span class="lang-pt">Voce entra no sorteio de um mimo coreano.</span>
-                    <span class="lang-kr">한국 기프트 추첨 응모 대상이 됩니다.</span>
-                  </div>
-                </div>
-                <div class="kicker-item">
-                  <span class="kicker-dot"></span>
-                  <div class="dual-copy">
-                    <span class="lang-pt">Continue explorando as zonas e produtos do evento.</span>
-                    <span class="lang-kr">행사 존과 제품들을 계속 자유롭게 둘러보실 수 있습니다.</span>
-                  </div>
-                </div>
-                <div class="kicker-item">
-                  <span class="kicker-dot"></span>
-                  <div class="dual-copy">
-                    <span class="lang-pt">Fique a vontade para voltar e ver mais informacoes do evento.</span>
-                    <span class="lang-kr">원하시면 다시 행사 페이지로 돌아가 더 많은 정보를 확인하실 수 있습니다.</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </aside>
+        <div class="summary-inline">
+          <span data-draft-name>Nome</span>
+          <span data-draft-phone>WhatsApp</span>
         </div>
+
+        <form class="form-stack" id="step2-form" data-step2-form>
+          <div class="field-group">
+            <label class="field-label" for="email">E-mail</label>
+            <input class="input" id="email" name="email" type="email" placeholder="Opcional">
+          </div>
+
+          <fieldset class="choice-group">
+            <legend class="choice-title">Você participou da degustação?</legend>
+            <div class="choice-grid two">
+              <label class="choice-card">
+                <input type="radio" name="didTaste" value="yes">
+                <span>Sim</span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="didTaste" value="no">
+                <span>Não</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="choice-group">
+            <legend class="choice-title">Qual zona você visitou?</legend>
+            <div class="choice-grid">
+              <label class="choice-card">
+                <input type="radio" name="tastedZone" value="seaweed-snacks">
+                <span>Seaweed Snacks</span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="tastedZone" value="beauty-drinks">
+                <span>Beauty Drinks</span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="tastedZone" value="wellness-foods">
+                <span>Wellness Foods</span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="tastedZone" value="multiple">
+                <span>Mais de uma</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="choice-group">
+            <legend class="choice-title">Qual produto você mais gostou?</legend>
+            <div class="choice-grid">
+              <label class="choice-card"><input type="radio" name="surveyFavorite" value="yuja"><span>Yuja</span></label>
+              <label class="choice-card"><input type="radio" name="surveyFavorite" value="omija"><span>Omija</span></label>
+              <label class="choice-card"><input type="radio" name="surveyFavorite" value="seaweed-snack"><span>Seaweed Snack</span></label>
+              <label class="choice-card"><input type="radio" name="surveyFavorite" value="black-sesame"><span>Black Sesame</span></label>
+              <label class="choice-card"><input type="radio" name="surveyFavorite" value="soy-milk"><span>Soy Milk</span></label>
+              <label class="choice-card"><input type="radio" name="surveyFavorite" value="other"><span>Outro</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="choice-group">
+            <legend class="choice-title">Por que você gostou mais?</legend>
+            <div class="choice-grid">
+              <label class="choice-card"><input type="radio" name="surveyReason" value="taste"><span>Sabor</span></label>
+              <label class="choice-card"><input type="radio" name="surveyReason" value="healthy-image"><span>Imagem saudável</span></label>
+              <label class="choice-card"><input type="radio" name="surveyReason" value="beauty-benefit"><span>Bem-estar</span></label>
+              <label class="choice-card"><input type="radio" name="surveyReason" value="package-visual"><span>Visual</span></label>
+              <label class="choice-card"><input type="radio" name="surveyReason" value="new-experience"><span>Novidade</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="choice-group">
+            <legend class="choice-title">Que tipo de evento você quer ver no futuro?</legend>
+            <div class="choice-grid">
+              <label class="choice-card"><input type="radio" name="interest" value="k-food"><span>K-Food</span></label>
+              <label class="choice-card"><input type="radio" name="interest" value="k-beauty"><span>K-Beauty</span></label>
+              <label class="choice-card"><input type="radio" name="interest" value="k-pop"><span>K-Pop</span></label>
+              <label class="choice-card"><input type="radio" name="interest" value="korean-language"><span>Língua Coreana</span></label>
+              <label class="choice-card"><input type="radio" name="interest" value="family-event"><span>Família</span></label>
+              <label class="choice-card"><input type="radio" name="interest" value="traditional-culture"><span>Cultura Tradicional</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="choice-group">
+            <legend class="choice-title">Qual foi sua satisfação?</legend>
+            <div class="choice-grid five">
+              <label class="choice-card compact"><input type="radio" name="surveySatisfaction" value="5"><span>5</span></label>
+              <label class="choice-card compact"><input type="radio" name="surveySatisfaction" value="4"><span>4</span></label>
+              <label class="choice-card compact"><input type="radio" name="surveySatisfaction" value="3"><span>3</span></label>
+              <label class="choice-card compact"><input type="radio" name="surveySatisfaction" value="2"><span>2</span></label>
+              <label class="choice-card compact"><input type="radio" name="surveySatisfaction" value="1"><span>1</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field-group">
+            <label class="field-label" for="notes">Comentário rápido</label>
+            <textarea class="textarea" id="notes" name="notes" placeholder="Opcional"></textarea>
+          </div>
+
+          <div class="checkbox-list">
+            <label class="checkbox-item">
+              <input type="checkbox" name="privacyConsent">
+              <span>Concordo com o uso dos dados para operação do evento.</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="marketingConsent">
+              <span>Quero receber novidades de próximos eventos.</span>
+            </label>
+          </div>
+
+          <button class="button button-primary button-full" type="submit">Enviar pesquisa</button>
+          <div class="status-inline" data-step2-status aria-live="polite"></div>
+        </form>
       </section>
 
       <section class="panel content-panel hidden" data-thank-you>
-        <div class="eyebrow">Completed</div>
-        <h2 class="section-title">Obrigado! Voce entrou no sorteio.<br>감사합니다. 추첨 응모가 완료되었습니다.</h2>
-        <p class="section-copy dual-copy">
-          <span class="lang-pt">Sua pesquisa foi enviada. O sorteio sera informado apos o evento. Agora voce pode continuar explorando ou ir para a zona de degustacao.</span>
-          <span class="lang-kr">설문 제출이 완료되었고 추첨 대상에 등록되었습니다. 추첨 결과는 행사 종료 후 안내할 수 있습니다.</span>
-        </p>
-
-        <div class="summary-box" style="margin-top: 18px;">
-          <dl>
-            <dt>Nome</dt>
-            <dd data-draft-name>Ainda nao informado / 아직 등록되지 않음</dd>
-            <dt>WhatsApp</dt>
-            <dd data-draft-phone>Ainda nao informado / 아직 등록되지 않음</dd>
-          </dl>
-        </div>
-
+        <div class="eyebrow">Pronto</div>
+        <h2 class="section-title">Obrigado!</h2>
+        <p class="hero-text">Sua participação foi registrada.</p>
         <div class="split-actions">
-          <a class="button button-secondary" href="event.html" data-route="event">
-            <span class="button-copy">
-              <span class="lang-pt">Explorar o evento</span>
-              <span class="lang-kr">행사 둘러보기</span>
-            </span>
-          </a>
-          <a class="button button-outline" href="event.html#zones" data-route="event" data-hash="zones">
-            <span class="button-copy">
-              <span class="lang-pt">Ir para as zonas</span>
-              <span class="lang-kr">시식존 가기</span>
-            </span>
-          </a>
-          <a class="button button-primary" href="index.html" data-route="index">
-            <span class="button-copy">
-              <span class="lang-pt">Voltar ao inicio</span>
-              <span class="lang-kr">첫 화면으로</span>
-            </span>
-          </a>
+          <a class="button button-secondary" href="event.html" data-route="event">Ver evento</a>
+          <a class="button button-primary" href="index.html" data-route="index">Voltar ao início</a>
         </div>
       </section>
     </main>
-
-    <p class="footer-note">Obrigado por compartilhar sua experiencia. / 행사 경험을 나눠 주셔서 감사합니다.</p>
   </div>
 
   <div class="mobile-sticky-bar">
     <div class="mobile-sticky-shell">
-      <div class="mobile-sticky-note">Responda e envie / 답변 후 제출하기</div>
       <div class="mobile-sticky-actions">
-        <button class="button button-primary" type="submit" form="step2-form">
-          <span class="button-copy">
-            <span class="lang-pt">Enviar pesquisa</span>
-            <span class="lang-kr">설문 제출하기</span>
-          </span>
-        </button>
+        <button class="button button-primary" type="submit" form="step2-form">Enviar pesquisa</button>
       </div>
     </div>
   </div>

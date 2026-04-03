@@ -3,15 +3,8 @@ const STORAGE_KEYS = {
   submissions: "kfoodVisitorSubmissions"
 };
 
-function isAppsScriptClient() {
-  return !!(window.google && google.script && google.script.run);
-}
-
 function buildRoute(page, hash) {
   const anchor = hash ? `#${hash}` : "";
-  if (isAppsScriptClient()) {
-    return `${window.location.pathname}?page=${page}${anchor}`;
-  }
   return `${page}.html${anchor}`;
 }
 
@@ -63,6 +56,10 @@ function normalizePhone(value) {
 }
 
 function formatPhoneInput(input) {
+  if (!input) {
+    return;
+  }
+
   input.addEventListener("input", () => {
     const raw = input.value.replace(/[^\d]/g, "").slice(0, 15);
     if (!raw) {
@@ -80,6 +77,7 @@ function formatPhoneInput(input) {
     } else {
       groups.push(raw.slice(0, 2), raw.slice(2, 7), raw.slice(7, 11), raw.slice(11));
     }
+
     input.value = groups.join(" ");
   });
 }
@@ -104,49 +102,24 @@ function upsertSubmission(payload) {
 }
 
 async function submitToEndpoint(payload) {
-  if (isAppsScriptClient()) {
-    const enrichedPayload = {
-      ...payload,
-      userAgent: navigator.userAgent
-    };
-
-    return new Promise((resolve, reject) => {
-      const runner = google.script.run
-        .withSuccessHandler(resolve)
-        .withFailureHandler((error) => {
-          reject(new Error(error && error.message ? error.message : "Apps Script error"));
-        });
-
-      if (payload.step === "step1") {
-        runner.saveStep1(enrichedPayload);
-        return;
-      }
-
-      if (payload.step === "step2") {
-        runner.saveStep2(enrichedPayload);
-        return;
-      }
-
-      resolve({ mode: "local" });
-    });
-  }
-
   const endpoint = window.APP_CONFIG && window.APP_CONFIG.submitUrl;
   if (!endpoint) {
     return { mode: "local" };
   }
 
-  const response = await fetch(endpoint, {
+  await fetch(endpoint, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify({
+      ...payload,
+      userAgent: navigator.userAgent
+    })
   });
 
-  if (!response.ok) {
-    throw new Error("서버 저장 실패");
-  }
-
-  return response.json().catch(() => ({ mode: "remote" }));
+  return { mode: "remote-opaque" };
 }
 
 function setStatus(target, message, isError) {
@@ -161,6 +134,7 @@ function setButtonState(button, isLoading, idleText, loadingText) {
   if (!button) {
     return;
   }
+
   button.disabled = isLoading;
   button.textContent = isLoading ? loadingText : idleText;
 }
@@ -170,20 +144,31 @@ function isValidName(value) {
 }
 
 function isValidWhatsapp(value) {
-  const digits = normalizePhone(value).replace(/\+/g, "");
-  return digits.length >= 10;
+  return normalizePhone(value).replace(/\+/g, "").length >= 10;
+}
+
+function getCheckedValue(form, name) {
+  const checked = form.querySelector(`input[name="${name}"]:checked`);
+  return checked ? checked.value : "";
+}
+
+function setCheckedValue(form, name, value) {
+  if (!value) {
+    return;
+  }
+  const input = form.querySelector(`input[name="${name}"][value="${value}"]`);
+  if (input) {
+    input.checked = true;
+  }
 }
 
 function renderDraftSummary() {
   const draft = getDraft();
-  const nameTargets = document.querySelectorAll("[data-draft-name]");
-  const phoneTargets = document.querySelectorAll("[data-draft-phone]");
-
-  nameTargets.forEach((target) => {
-    target.textContent = draft.name || "Ainda nao informado / 아직 등록되지 않음";
+  document.querySelectorAll("[data-draft-name]").forEach((target) => {
+    target.textContent = draft.name || "Nao informado";
   });
-  phoneTargets.forEach((target) => {
-    target.textContent = draft.whatsapp || "Ainda nao informado / 아직 등록되지 않음";
+  document.querySelectorAll("[data-draft-phone]").forEach((target) => {
+    target.textContent = draft.whatsapp || "Nao informado";
   });
 }
 
@@ -212,47 +197,35 @@ function initStep1Form() {
       name: form.elements.name.value.trim(),
       whatsapp: form.elements.whatsapp.value.trim(),
       step1Completed: true,
-      source: "qr-landing"
+      source: "github-pages",
+      lastStep: "step1"
     };
 
     if (!isValidName(payload.name)) {
-      setStatus(status, "Digite seu nome completo. / 이름을 2글자 이상 입력해 주세요.", true);
-      return;
-    }
-    if (!isValidWhatsapp(payload.whatsapp)) {
-      setStatus(status, "Digite um WhatsApp valido. / 올바른 WhatsApp 번호를 입력해 주세요.", true);
+      setStatus(status, "Digite seu nome completo.", true);
       return;
     }
 
-    setStatus(status, "Salvando seu check-in... / 체크인 정보를 저장하고 있습니다.", false);
+    if (!isValidWhatsapp(payload.whatsapp)) {
+      setStatus(status, "Digite um WhatsApp valido.", true);
+      return;
+    }
+
+    setStatus(status, "Salvando seu check-in...", false);
 
     const merged = { ...getDraft(), ...payload };
     saveDraft(merged);
     upsertSubmission(merged);
 
     const submitButton = form.querySelector('button[type="submit"]');
-    setButtonState(
-      submitButton,
-      true,
-      "Continuar para proxima etapa / 다음 단계로 계속",
-      "Salvando... / 저장 중..."
-    );
+    setButtonState(submitButton, true, "Continuar", "Salvando...");
 
     try {
       await submitToEndpoint({ step: "step1", ...merged });
       routeTo("step2");
     } catch (error) {
-      setButtonState(
-        submitButton,
-        false,
-        "Continuar para proxima etapa / 다음 단계로 계속",
-        "Salvando... / 저장 중..."
-      );
-      setStatus(
-        status,
-        "Salvo no dispositivo, mas houve falha na conexao com o servidor. / 기기에는 저장되었지만 서버 연결에 실패했습니다.",
-        true
-      );
+      setButtonState(submitButton, false, "Continuar", "Salvando...");
+      setStatus(status, "Falha ao enviar. Tente novamente.", true);
     }
   });
 }
@@ -275,24 +248,6 @@ function initStep2Form() {
   if (draft.email) {
     form.elements.email.value = draft.email;
   }
-  if (draft.interest) {
-    form.elements.interest.value = draft.interest;
-  }
-  if (draft.didTaste) {
-    form.elements.didTaste.value = draft.didTaste;
-  }
-  if (draft.tastedZone) {
-    form.elements.tastedZone.value = draft.tastedZone;
-  }
-  if (draft.surveyFavorite) {
-    form.elements.surveyFavorite.value = draft.surveyFavorite;
-  }
-  if (draft.surveyReason) {
-    form.elements.surveyReason.value = draft.surveyReason;
-  }
-  if (draft.surveySatisfaction) {
-    form.elements.surveySatisfaction.value = draft.surveySatisfaction;
-  }
   if (draft.notes) {
     form.elements.notes.value = draft.notes;
   }
@@ -303,57 +258,54 @@ function initStep2Form() {
     form.elements.privacyConsent.checked = true;
   }
 
+  setCheckedValue(form, "didTaste", draft.didTaste);
+  setCheckedValue(form, "tastedZone", draft.tastedZone);
+  setCheckedValue(form, "surveyFavorite", draft.surveyFavorite);
+  setCheckedValue(form, "surveyReason", draft.surveyReason);
+  setCheckedValue(form, "interest", draft.interest);
+  setCheckedValue(form, "surveySatisfaction", draft.surveySatisfaction);
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const payload = {
       ...draft,
       email: form.elements.email.value.trim(),
-      interest: form.elements.interest.value,
-      didTaste: form.elements.didTaste.value,
-      tastedZone: form.elements.tastedZone.value,
-      surveyFavorite: form.elements.surveyFavorite.value,
-      surveyReason: form.elements.surveyReason.value,
-      surveySatisfaction: form.elements.surveySatisfaction.value,
-      favoriteProduct: form.elements.surveyFavorite.value,
-      surveyFutureInterest: form.elements.interest.value,
+      didTaste: getCheckedValue(form, "didTaste"),
+      tastedZone: getCheckedValue(form, "tastedZone"),
+      surveyFavorite: getCheckedValue(form, "surveyFavorite"),
+      surveyReason: getCheckedValue(form, "surveyReason"),
+      interest: getCheckedValue(form, "interest"),
+      surveyFutureInterest: getCheckedValue(form, "interest"),
+      surveySatisfaction: getCheckedValue(form, "surveySatisfaction"),
+      favoriteProduct: getCheckedValue(form, "surveyFavorite"),
       surveyComment: form.elements.notes.value.trim(),
       notes: form.elements.notes.value.trim(),
       privacyConsent: form.elements.privacyConsent.checked,
       marketingConsent: form.elements.marketingConsent.checked,
       surveyCompleted: true,
-      giftEligible: form.elements.privacyConsent.checked && form.elements.didTaste.value === "yes",
-      step2Completed: true
+      giftEligible: form.elements.privacyConsent.checked && getCheckedValue(form, "didTaste") === "yes",
+      step2Completed: true,
+      lastStep: "step2"
     };
 
     if (!payload.privacyConsent) {
-      setStatus(
-        status,
-        "Voce precisa concordar com o aviso de privacidade para concluir. / 완료하려면 개인정보 안내 동의가 필요합니다.",
-        true
-      );
-      return;
-    }
-    if (!payload.surveyFavorite || !payload.interest || !payload.surveySatisfaction) {
-      setStatus(
-        status,
-        "Responda as perguntas principais da pesquisa para participar. / 경품 응모를 위해 핵심 설문 문항을 입력해 주세요.",
-        true
-      );
+      setStatus(status, "Voce precisa concordar com o aviso de privacidade.", true);
       return;
     }
 
-    setStatus(status, "Concluindo seu cadastro... / 등록을 완료하고 있습니다.", false);
+    if (!payload.surveyFavorite || !payload.interest || !payload.surveySatisfaction) {
+      setStatus(status, "Responda as perguntas principais para continuar.", true);
+      return;
+    }
+
+    setStatus(status, "Enviando sua pesquisa...", false);
+
     saveDraft(payload);
     upsertSubmission(payload);
 
     const submitButton = form.querySelector('button[type="submit"]');
-    setButtonState(
-      submitButton,
-      true,
-      "Concluir cadastro / 등록 완료하기",
-      "Enviando... / 전송 중..."
-    );
+    setButtonState(submitButton, true, "Enviar pesquisa", "Enviando...");
 
     try {
       await submitToEndpoint({ step: "step2", ...payload });
@@ -362,17 +314,8 @@ function initStep2Form() {
       renderDraftSummary();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
-      setButtonState(
-        submitButton,
-        false,
-        "Concluir cadastro / 등록 완료하기",
-        "Enviando... / 전송 중..."
-      );
-      setStatus(
-        status,
-        "Salvo no dispositivo, mas houve falha na conexao com o servidor. / 기기에는 저장되었지만 서버 연결에 실패했습니다.",
-        true
-      );
+      setButtonState(submitButton, false, "Enviar pesquisa", "Enviando...");
+      setStatus(status, "Falha ao enviar. Tente novamente.", true);
     }
   });
 }
@@ -385,7 +328,7 @@ function initEventPage() {
 
   const draft = getDraft();
   if (draft.name) {
-    target.textContent = `${draft.name}, se voce ja concluiu o check-in, veja abaixo as zonas e degustacoes. / ${draft.name}님, 체크인을 마치셨다면 아래 존 안내와 시식 정보를 확인해 보세요.`;
+    target.textContent = `${draft.name}, aproveite as degustacoes e as zonas do evento.`;
   }
 }
 
