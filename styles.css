@@ -106,7 +106,8 @@ textarea {
 .action-stack,
 .choice-grid,
 .product-list,
-.mini-info-grid {
+.mini-info-grid,
+.icon-grid {
   display: grid;
   gap: 14px;
 }
@@ -151,6 +152,13 @@ textarea {
   color: var(--muted);
   font-size: 15px;
   line-height: 1.55;
+}
+
+.hero-subtitle-strong {
+  margin-top: 10px;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
 .button {
@@ -229,6 +237,41 @@ textarea {
   text-transform: uppercase;
 }
 
+.icon-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.icon-card {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.icon-picto {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--soft);
+  color: var(--primary-dark);
+  font-size: 20px;
+}
+
+.icon-card strong {
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.icon-card span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
 .field-group {
   display: grid;
   gap: 8px;
@@ -289,6 +332,21 @@ textarea {
   border-color: rgba(244, 123, 32, 0.5);
   background: rgba(244, 123, 32, 0.10);
   color: var(--primary-dark);
+}
+
+.choice-card input:checked + span::before {
+  content: "✓";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: rgba(244, 123, 32, 0.16);
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .input,
@@ -400,6 +458,23 @@ textarea {
 
 .hidden {
   display: none !important;
+}
+
+@media (max-width: 420px) {
+  .choice-grid.five {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .choice-card span {
+    min-height: 52px;
+    font-size: 13px;
+    padding: 10px 8px;
+  }
+
+  .icon-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 860px) {
