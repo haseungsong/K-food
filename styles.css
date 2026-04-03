@@ -53,8 +53,8 @@ textarea {
   position: sticky;
   top: 10px;
   z-index: 20;
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 12px;
   margin-bottom: 14px;
   padding: 12px;
@@ -101,7 +101,23 @@ textarea {
 }
 
 .nav-links {
-  margin-left: auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.nav-chip {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  padding: 10px 8px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: #fffdfa;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
 }
 
 .nav-shortcuts {
@@ -156,6 +172,14 @@ textarea {
   flex-direction: column;
   justify-content: center;
   scroll-snap-align: start;
+}
+
+.section-centered {
+  text-align: center;
+}
+
+.section-centered .eyebrow {
+  margin-inline: auto;
 }
 
 .eyebrow {
@@ -513,7 +537,7 @@ textarea {
   position: fixed;
   inset: 0;
   display: none;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   z-index: 80;
   padding: 16px 12px;
@@ -525,16 +549,16 @@ textarea {
 }
 
 .modal-sheet {
-  width: min(100%, 760px);
-  max-height: 82vh;
+  width: min(100%, 820px);
+  max-height: 86vh;
   overflow: auto;
-  border-radius: 28px 28px 22px 22px;
+  border-radius: 28px;
   background: #fff;
   box-shadow: 0 30px 90px rgba(20, 16, 12, 0.24);
 }
 
 .modal-content {
-  padding: 20px 18px 18px;
+  padding: 22px 20px 20px;
 }
 
 .modal-topbar {
@@ -575,6 +599,16 @@ textarea {
 }
 
 @media (max-width: 420px) {
+  .nav-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .nav-chip {
+    min-height: 44px;
+    font-size: 12px;
+    padding: 8px 6px;
+  }
+
   .nav-shortcuts {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -599,6 +633,16 @@ textarea {
   .icon-grid {
     grid-template-columns: 1fr;
   }
+
+  .modal {
+    align-items: flex-end;
+    padding: 10px;
+  }
+
+  .modal-sheet {
+    max-height: 88vh;
+    border-radius: 28px 28px 20px 20px;
+  }
 }
 
 @media (min-width: 860px) {
@@ -608,6 +652,15 @@ textarea {
 
   .page-shell {
     padding-bottom: 40px;
+  }
+
+  .topbar {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .nav-links {
+    min-width: 320px;
   }
 
   .mobile-sticky-bar {
